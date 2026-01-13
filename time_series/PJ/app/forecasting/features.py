@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pandas as pd
 
-def build_lag_features(series: pd.Series, lags=(1,2,3,5,10,20), roll_windows=(5,20)) -> pd.DataFrame:
-    """Notebook-style lag features + calendar features. Target is column 'y'."""
+
+def build_lag_features(series: pd.Series, lags=(1, 2, 3, 5, 10, 20), roll_windows=(5, 20)) -> pd.DataFrame:
     df = pd.DataFrame({"y": series})
     for lag in lags:
         df[f"lag_{lag}"] = df["y"].shift(lag)
@@ -20,6 +20,6 @@ def build_lag_features(series: pd.Series, lags=(1,2,3,5,10,20), roll_windows=(5,
 
     return df.dropna()
 
+
 def make_future_dates(last_date: pd.Timestamp, steps: int = 30) -> pd.DatetimeIndex:
-    # Stocks trade on business days; approximate by business-day calendar.
     return pd.bdate_range(last_date + pd.Timedelta(days=1), periods=steps)

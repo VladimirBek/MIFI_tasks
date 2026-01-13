@@ -7,12 +7,14 @@ from .ml_model import RidgeLagModel
 from .arima_model import ARIMAModel
 from .lstm_model import LSTMModel
 
+
 @dataclass
 class ModelResult:
     name: str
     rmse: float
     mape: float
     details: str = ""
+
 
 def select_best_model(series: pd.Series):
     models = [

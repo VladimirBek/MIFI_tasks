@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+
 os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
 
 import numpy as np
@@ -11,6 +12,7 @@ from tensorflow.keras import layers
 
 from .metrics import rmse, mape
 from .features import make_future_dates
+
 
 class LSTMModel:
     name = "NN_LSTM"
@@ -32,7 +34,7 @@ class LSTMModel:
     def _make_xy(self, arr: np.ndarray):
         X, y = [], []
         for i in range(self.window, len(arr)):
-            X.append(arr[i-self.window:i, 0])
+            X.append(arr[i - self.window:i, 0])
             y.append(arr[i, 0])
         X = np.array(X, dtype=np.float32)
         y = np.array(y, dtype=np.float32)
@@ -86,7 +88,6 @@ class LSTMModel:
         }
 
     def forecast(self, series: pd.Series, steps: int = 30) -> pd.Series:
-        # Train quickly if needed
         if self.model is None:
             self.fit_and_eval(series, test_ratio=0.2)
 

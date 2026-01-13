@@ -3,6 +3,7 @@ from __future__ import annotations
 import pandas as pd
 import yfinance as yf
 
+
 def load_prices(ticker: str, years: int = 2) -> pd.Series:
     df = yf.download(ticker, period=f"{years}y", interval="1d", auto_adjust=True, progress=False)
     if df is None or df.empty:

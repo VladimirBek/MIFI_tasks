@@ -7,12 +7,12 @@ from aiogram.types import Message, BufferedInputFile
 from aiogram.filters import Command
 from aiogram.enums import ParseMode
 
-from config import load_config
-from forecasting.data import load_prices
-from forecasting.selector import select_best_model
-from forecasting.strategy import buy_sell_points, simulate_profit
-from forecasting.plotting import plot_history_and_forecast
-from utils.logging import append_log_row, utc_now_iso
+from .config import load_config
+from .forecasting.data import load_prices
+from .forecasting.selector import select_best_model
+from .forecasting.strategy import buy_sell_points, simulate_profit
+from .forecasting.plotting import plot_history_and_forecast
+from .utils.logging import append_log_row, utc_now_iso
 
 HELP_TEXT = (
     "Отправьте сообщение в формате:\n"
@@ -56,7 +56,7 @@ async def handle_text(message: Message, bot: Bot, log_path: str):
 
         forecast = best_model.forecast(series, steps=30)
 
-        buy_dates, sell_dates = buy_sell_points(forecast, order=2)
+        buy_dates, sell_dates = buy_sell_points(forecast, order=1)
         profit = simulate_profit(forecast, amount, buy_dates, sell_dates)
 
         change_pct = (forecast.iloc[-1] - series.iloc[-1]) / series.iloc[-1] * 100.0

@@ -17,6 +17,7 @@ LOG_HEADERS = [
     "sell_dates",
 ]
 
+
 def append_log_row(log_path: str, row: Dict[str, Any]) -> None:
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
 
@@ -27,6 +28,7 @@ def append_log_row(log_path: str, row: Dict[str, Any]) -> None:
             writer.writeheader()
         out = {k: row.get(k, "") for k in LOG_HEADERS}
         writer.writerow(out)
+
 
 def utc_now_iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")

@@ -9,6 +9,7 @@ from sklearn.linear_model import Ridge
 from .features import build_lag_features, make_future_dates
 from .metrics import rmse, mape
 
+
 class RidgeLagModel:
     name = "ML_Ridge_Lags"
 

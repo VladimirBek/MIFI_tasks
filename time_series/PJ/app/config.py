@@ -4,10 +4,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 @dataclass(frozen=True)
 class Config:
     telegram_token: str
     log_path: str = "logs/logs.csv"
+
 
 def load_config() -> Config:
     token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()

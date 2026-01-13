@@ -7,6 +7,7 @@ from statsmodels.tsa.arima.model import ARIMA
 from .metrics import rmse, mape
 from .features import make_future_dates
 
+
 class ARIMAModel:
     name = "Stat_ARIMA"
 
@@ -19,17 +20,21 @@ class ARIMAModel:
             return ARIMA(y, order=order).fit()
 
     def fit_and_eval(self, series: pd.Series, test_ratio: float = 0.2):
+        series = series.sort_index()
+        series = series.asfreq("B")
+        series = series.ffill()
+
         n = len(series)
         split = int(n * (1 - test_ratio))
         train, test = series.iloc[:split], series.iloc[split:]
 
         candidates = []
-        for p in [0,1,2,3]:
-            for d in [0,1]:
-                for q in [0,1,2]:
+        for p in [0, 1, 2, 3]:
+            for d in [0, 1]:
+                for q in [0, 1, 2]:
                     if p == 0 and d == 0 and q == 0:
                         continue
-                    candidates.append((p,d,q))
+                    candidates.append((p, d, q))
 
         best = None
         best_rmse = float("inf")
@@ -48,7 +53,7 @@ class ARIMAModel:
                 continue
 
         if best is None:
-            best = (1,1,0)
+            best = (1, 1, 0)
             model = self._fit(train, best)
             pred = model.forecast(steps=len(test))
             best_rmse = rmse(test, pred)
